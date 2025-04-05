@@ -14,7 +14,8 @@ export const createAdvert = async (req, res, next) => {
       tags,
       type,
       image,
-      owner: req.user._id, // El usuario autenticado será el dueño del anuncio
+      //owner: req.user._id, // El usuario autenticado será el dueño del anuncio
+      owner: '660e04e23fc0545e42c0de9e', // ID de usuario de ejemplo (debe ser reemplazado por req.user._id en producción)
     });
 
     // Guardamos el anuncio en la base de datos

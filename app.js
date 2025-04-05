@@ -8,10 +8,19 @@ import advertsRoutes from './routes/advertsRoutes.js';
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
 
+connectMongoose()
+  .then(() => {
+    console.log('✅ Conectado a MongoDB');
+  })
+  .catch((err) => {
+    console.error('❌ Error conectando a MongoDB:', err);
+    process.exit(1); // detiene la app si no hay conexión
+  });
+
 //API controllers example
-import * as apiController from './controllers/APi/apiController.js';
+//import * as apiController from './controllers/APi/apiController.js';
 // Web Site controller example
-import * as webSiteController from './controllers/controller.js';
+//import * as webSiteController from './controllers/controller.js';
 
 const app = express();
 
@@ -45,15 +54,15 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// error handler para APIs (devolvemos JSON en vez de renderizar)
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  console.error('❌ Error:', err.message);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).json({
+    error: true,
+    message: err.message,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  });
 });
 
 export default app;
