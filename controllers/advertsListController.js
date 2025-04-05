@@ -4,7 +4,9 @@ import Advert from "../models/advertModel.js";
 
 export async function advertsList(req, res, next) {
   try {
-    const adverts = await Advert.find();
+    const adverts = await Advert.find()
+    .sort({ createdAt: -1 })
+    .exec();
     res.json({ success: true, results: adverts })
   } catch (err) {
     next(err)
