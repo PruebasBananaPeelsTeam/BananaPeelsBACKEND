@@ -13,7 +13,7 @@ export const createAdvert = async (req, res, next) => {
       price,
       tags,
       type,
-      image,
+      image: req.file?.filename || '', // Obtenemos el nombre del archivo de la imagen subida
       //owner: req.user._id, // El usuario autenticado será el dueño del anuncio
       owner: '660e04e23fc0545e42c0de9e', // ID de usuario de ejemplo (debe ser reemplazado por req.user._id en producción)
     });
