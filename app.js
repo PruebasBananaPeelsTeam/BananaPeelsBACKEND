@@ -8,14 +8,9 @@ import advertsRoutes from './routes/advertsRoutes.js';
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
 
-connectMongoose()
-  .then(() => {
-    console.log('✅ Conectado a MongoDB');
-  })
-  .catch((err) => {
-    console.error('❌ Error conectando a MongoDB:', err);
-    process.exit(1); // detiene la app si no hay conexión
-  });
+await connectMongoose()
+console.log('✅ Conectado a MongoDB');
+
 
 //API controllers example
 //import * as apiController from './controllers/APi/apiController.js';
