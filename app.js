@@ -3,7 +3,7 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import adveertsRoutes from './controllers/APi/routes/advertsRoutes.js';
+import adveertsRoutes from './routes/advertsRoutes.js';
 
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
