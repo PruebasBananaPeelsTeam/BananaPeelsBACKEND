@@ -14,7 +14,7 @@ export const authMiddleware = async (req, res, next) => {
         // verificamos el token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // Buscamos el user en la DB con ID del token
-        const user = await User.findByID(decoded.id);
+        const user = await User.findById(decoded.id);
 
         if(!user)  {
             return res.status(401).json({ error: 'user not found' });

@@ -3,7 +3,7 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import adveertsRoutes from './routes/advertsRoutes.js';
+import advertsRoutes from './routes/advertsRoutes.js';
 
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 // API routes
-app.use('/api/adverts', adveertsRoutes);
+app.use('/api/adverts', advertsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
