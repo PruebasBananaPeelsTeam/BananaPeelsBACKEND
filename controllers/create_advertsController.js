@@ -3,28 +3,26 @@ import Advert from '../models/Advert.js';
 // Controlador para crear un nuevo anuncio
 export const createAdvert = async (req, res, next) => {
   try {
-    // Extraemos los datos del cuerpo de la petición (formulario)
-    const { name, description, price, tags, type, image } = req.body;
+    if (!req.file) {
+      return res.status(400).json({ error: 'Se requiere una imagen válida' });
+    }
 
-    // Creamos una nueva instancia del modelo Advert con los datos recibidos
+    const { name, description, price, tags, type } = req.body;
+
     const advert = new Advert({
       name,
       description,
       price,
       tags,
       type,
-      image: req.file?.filename || '', // Obtenemos el nombre del archivo de la imagen subida
-      //owner: req.user._id, // El usuario autenticado será el dueño del anuncio
-      owner: '660e04e23fc0545e42c0de9e', // ID de usuario de ejemplo (debe ser reemplazado por req.user._id en producción)
+      image: req.file.filename,
+      //owner: req.user._id, // Descomentar cuando se implemente la autenticación
+      owner: '660e04e23fc0545e42c0de9e' // temporal
     });
 
-    // Guardamos el anuncio en la base de datos
     const savedAdvert = await advert.save();
-
-    // Devolvemos el anuncio creado con un código 201 (creado)
     res.status(201).json(savedAdvert);
   } catch (err) {
-    // En caso de error, lo pasamos al middleware de manejo de errores
     next(err);
   }
 };
