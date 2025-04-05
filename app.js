@@ -37,6 +37,9 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
+// API routes
+app.use('/api/adverts', adveertsRoutes);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
