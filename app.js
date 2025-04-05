@@ -3,6 +3,7 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import routes from './routes/loginRoutes.js';
 
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
@@ -25,10 +26,8 @@ app.use(cookieParser());
 // set the folder where statis resources will be served
 app.use(express.static(join(import.meta.dirname, 'public')));
 
-
-
 // Routing
-
+app.use(routes)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
