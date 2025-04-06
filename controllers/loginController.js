@@ -1,7 +1,7 @@
-// import User from '../models/User.js'
+import User from '../models/User.js';
 import createError from 'http-errors';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const login = async (req, res, next) => {
     try {
@@ -9,13 +9,16 @@ export const login = async (req, res, next) => {
         const userFound = await User.findOne({ email: email.toLowerCase() });
         const isMatch = await bcrypt.compare(password, userFound.password);
 
+        console.log('userFound:', userFound);
+        console.log('isMatch:', isMatch);
+
         if (!userFound || !isMatch) {
             next(createError(401, 'Invalid Credentials 😢'));
             return;
         }
 
         jwt.sign(
-            { _id: user._id },
+            { _id: userFound._id },
             process.env.JWT_TOKEN,
             {
                 expiresIn: '2d',
@@ -28,7 +31,6 @@ export const login = async (req, res, next) => {
                 res.json({ tokenJWT });
             },
         );
-        res.json({ message: 'Login success' });
     } catch (error) {
         console.log(error);
         next(createError(500, 'Internal server error'));
