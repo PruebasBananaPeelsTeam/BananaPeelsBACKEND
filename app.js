@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import routes from './routes/registerRoutes.js';
+import routes from './routes/advertsRoutes.js'
 
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
