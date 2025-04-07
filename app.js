@@ -9,6 +9,10 @@ import routes from './routes/advertsRoutes.js'
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
 
+await connectMongoose()
+console.log('✅ Conectado a MongoDB');
+
+
 await connectMongoose();
 console.log('✅ MongoDB connected!');
 
@@ -35,6 +39,7 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+// error handler para APIs (devolvemos JSON en vez de renderizar)
 // error handler para APIs (devolvemos JSON en vez de renderizar)
 app.use(function (err, req, res, next) {
   console.error('❌ Error:', err.message);
