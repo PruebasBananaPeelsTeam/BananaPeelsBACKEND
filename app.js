@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import routes from './routes/registerRoutes.js';
 import routes from './routes/advertsRoutes.js'
+import routes from './routes/loginRoutes.js';
 
 // import upload from './lib/uploadConfig.js';
 import connectMongoose from './lib/mongooseConfig.js';
@@ -36,13 +37,13 @@ app.use(routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler para APIs (devolvemos JSON en vez de renderizar)
 // error handler para APIs (devolvemos JSON en vez de renderizar)
 app.use(function (err, req, res, next) {
-  console.error('❌ Error:', err.message);
+    console.error('❌ Error:', err.message);
 
   res.status(err.status || 500).json({
     error: true,
