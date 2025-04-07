@@ -36,13 +36,9 @@ app.use(express.static(join(import.meta.dirname, 'public')));
 // app.use(i18n.init)
 
 // Routing
-// index route rendering home.ejs
-app.get('/', (req, res) => {
-  res.render('home');
-});
 
 // API routes
-app.use('/api/adverts', advertsRoutes);
+app.use(advertsRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

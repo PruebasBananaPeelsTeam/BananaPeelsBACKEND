@@ -5,6 +5,6 @@ import upload from '../lib/uploadConfig.js';
 
 const router = express.Router();
 
-router.post('/', /*authMiddleware,*/ upload.single('image'), createAdvert);
+router.post('/api/adverts', /*authMiddleware,*/ upload.single('image'), createAdvert);
 
 export default router;
