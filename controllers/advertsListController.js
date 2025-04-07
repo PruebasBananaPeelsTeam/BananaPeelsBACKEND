@@ -1,4 +1,4 @@
-import Advert from "../models/advertModel.js";
+import Advert from "../models/Advert.js";
 
 //Listing logic
 

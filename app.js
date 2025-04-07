@@ -3,16 +3,8 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import routes from './routes/registerRoutes.js';
-import routes from './routes/advertsRoutes.js'
-import routes from './routes/loginRoutes.js';
-
-// import upload from './lib/uploadConfig.js';
+import routes from './routes/Routes.js';
 import connectMongoose from './lib/mongooseConfig.js';
-
-await connectMongoose()
-console.log('✅ Conectado a MongoDB');
-
 
 await connectMongoose();
 console.log('✅ MongoDB connected!');
@@ -20,16 +12,10 @@ console.log('✅ MongoDB connected!');
 const app = express();
 
 // middlewares
-
-// morgan logger for http requests logs
 app.use(logger('dev'));
-// transforms json objects into js objects
 app.use(express.json());
-// transforms data sent by a form to a js object
 app.use(express.urlencoded({ extended: true }));
-// cookie parser to get cookies from client
 app.use(cookieParser());
-// set the folder where statis resources will be served
 app.use(express.static(join(import.meta.dirname, 'public')));
 
 // Routing
@@ -40,7 +26,6 @@ app.use(function (req, res, next) {
     next(createError(404));
 });
 
-// error handler para APIs (devolvemos JSON en vez de renderizar)
 // error handler para APIs (devolvemos JSON en vez de renderizar)
 app.use(function (err, req, res, next) {
     console.error('❌ Error:', err.message);
