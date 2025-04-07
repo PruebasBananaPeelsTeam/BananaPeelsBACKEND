@@ -19,7 +19,7 @@ app.use(logger('dev'));
 // transforms json objects into js objects
 app.use(express.json());
 // transforms data sent by a form to a js object
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 // cookie parser to get cookies from client
 app.use(cookieParser());
 // set the folder where statis resources will be served
