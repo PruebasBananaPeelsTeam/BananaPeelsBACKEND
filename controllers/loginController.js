@@ -1,13 +1,12 @@
 import User from '../models/User.js';
 import createError from 'http-errors';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const userFound = await User.findOne({ email: email.toLowerCase() });
-        const isMatch = await bcrypt.compare(password, userFound.password);
+        const isMatch = await userFound.comparePassword(password);
 
         console.log('userFound:', userFound);
         console.log('isMatch:', isMatch);
