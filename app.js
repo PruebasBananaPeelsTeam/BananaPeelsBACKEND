@@ -32,11 +32,11 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     console.error('❌ Error:', err.message);
 
-  res.status(err.status || 500).json({
-    error: true,
-    message: err.message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-  });
+    res.status(err.status || 500).json({
+        error: true,
+        message: err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    });
 });
 
 export default app;
