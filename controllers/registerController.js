@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import createError from 'http-errors';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -9,7 +10,8 @@ const registerSchema = z.object({
 
 export async function createUser(req, res, next) {
     try {
-        const { email, password, username } = req.body;
+        const validatedData = registerSchema.parse(req.body);
+        const { email, password, username } = validatedData;
 
         // Hashear contraseña usando el método estático
         const hashedPassword = await User.hashPassword(password);
@@ -17,7 +19,7 @@ export async function createUser(req, res, next) {
         // Crear una instancia de usuario
         const user = new User({
             email,
-            password: hashedPassword, //con la contraseña hasheada
+            password: hashedPassword, 
             username,
         });
 
