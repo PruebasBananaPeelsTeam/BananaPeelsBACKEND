@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import routes from './routes/Routes.js';
 import connectMongoose from './lib/mongooseConfig.js';
+import cors from 'cors';
 
 await connectMongoose();
 console.log('✅ MongoDB connected!');
@@ -12,6 +13,7 @@ console.log('✅ MongoDB connected!');
 const app = express();
 
 // middlewares
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
