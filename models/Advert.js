@@ -5,7 +5,7 @@ const AdvertSchema = new Schema({
     description: { type: String, required: true },
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     price: { type: Number, required: true },
-    image: {String, default: null},
+    image: String,
     tags: [{ type: String }],
     type: { type: String, enum: ['buy', 'sell'], required: true },
     reserved: { type: Boolean, default: false },
