@@ -1,15 +1,18 @@
 import User from '../models/User.js';
 import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
+import { z } from 'zod'
+
+const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4),
+  });
 
 export const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = loginSchema.parse(req.body);
         const userFound = await User.findOne({ email: email.toLowerCase() });
         const isMatch = await userFound.comparePassword(password);
-
-        console.log('userFound:', userFound);
-        console.log('isMatch:', isMatch);
 
         if (!userFound || !isMatch) {
             next(createError(401, 'Invalid Credentials 😢'));
@@ -31,7 +34,11 @@ export const login = async (req, res, next) => {
             },
         );
     } catch (error) {
-        console.log(error);
-        next(createError(500, 'Internal server error'));
+        // zod error handler
+        if (error instanceof z.ZodError) {
+            return next(createError(400, error.errors.map(e => e.message).join(', ')));
+          }
+        console.log(error)
+        next(createError(500, 'Internal server error'))
     }
 };
