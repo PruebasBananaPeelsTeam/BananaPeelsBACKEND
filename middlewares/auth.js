@@ -2,10 +2,6 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 // Middleware para proteger rutas
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
-
-// Middleware para proteger rutas
 export const authMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization?.replace('Bearer ', '');
