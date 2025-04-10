@@ -6,6 +6,7 @@ import { advertsList } from '../controllers/advertsListController.js';
 import { createAdvert } from '../controllers/create_advertsController.js';
 import { loginLimiter } from '../middlewares/loginLimiter.js';
 import { authMiddleware } from '../middlewares/auth.js';
+import { registerLimiter } from '../middlewares/registerLimiter.js';
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.post(
     upload.single('image'),
     createAdvert,
 );
-router.post('/api/register', createUser);
+router.post('/api/register', registerLimiter, createUser);
 router.post('/api/login', loginLimiter, login);
 
 export default router;
