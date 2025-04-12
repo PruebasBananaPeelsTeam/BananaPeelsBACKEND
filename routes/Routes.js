@@ -7,6 +7,7 @@ import { createAdvert } from '../controllers/create_advertsController.js';
 import { loginLimiter } from '../middlewares/loginLimiter.js';
 import { authMiddleware } from '../middlewares/auth.js';
 import { registerLimiter } from '../middlewares/registerLimiter.js';
+import { validateAdvert } from '../middlewares/validateAdvert.js';
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.post(
     '/api/adverts',
     authMiddleware,
     upload.single('image'),
+    validateAdvert,
     createAdvert,
 );
 router.post('/api/register', registerLimiter, createUser);
