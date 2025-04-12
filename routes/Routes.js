@@ -20,4 +20,19 @@ router.post(
 router.post('/api/register', registerLimiter, createUser);
 router.post('/api/login', loginLimiter, login);
 
+const aviableTags = [
+    'lifestyle',
+    'motor',
+    'work',
+    'mobile',
+    'computer',
+    'home',
+    'garden',
+    'clothes',
+    'sports',
+];
+
+router.get('/api/tags', (req, res) => {
+    res.json({ results: aviableTags })
+})
 export default router;
