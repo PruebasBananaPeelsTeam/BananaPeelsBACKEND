@@ -28,6 +28,8 @@ const advertSchema = z.object({
 export const validateAdvert = (req, res, next) => {
   const result = advertSchema.safeParse(req.body);
 
+  const errorList = []
+
   if (!result.success) {
     const formatted = result.error.errors.map((err) => ({
       field: err.path[0],
@@ -35,6 +37,24 @@ export const validateAdvert = (req, res, next) => {
     }));
     return res.status(400).json({ errors: formatted });
   }
+
+  if (req.file) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/jpg']
+    const maxSize = 5 * 1024 / 1024 // Maximo de 5MB
+
+    if (allowedTypes.includes(req.file.mimetype)) {
+        errorList.push({ field: 'image', message: 'El tipo de imagen no es válido' });
+    }
+
+    if (req.file.size > maxSize) {
+        errorList.push({ field: 'image', message: 'El tamaño de la imagen no es válido' });
+    }   
+}
+
+if (errorList.length > 0) {
+    return res.status(400).json({ errors: errorList })
+}
+  
 
   req.body = result.data; 
   next();
