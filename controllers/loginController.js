@@ -4,14 +4,18 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-    email: z.string().email(),
+    username: z.string()
+    .min(1, 'Username is required (min 1)')
+    .max(25, 'Username is Too long (max 25)')
+    .trim()
+    .regex(/^[a-zA-Z0-9_.-]*$/, 'Only letters, numbers, underscores, dots and hyphens are allowed'),
     password: z.string().min(4),
 });
 
 export const login = async (req, res, next) => {
     try {
-        const { email, password } = loginSchema.parse(req.body);
-        const userFound = await User.findOne({ email: email.toLowerCase() });
+        const { username, password } = loginSchema.parse(req.body);
+        const userFound = await User.findOne({ username });
 
         if (!userFound) {
             return next(createError(401, 'Invalid Credentials 😢'));
