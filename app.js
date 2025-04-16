@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(join(import.meta.dirname, 'public')));
+app.use('/images', express.static(join(import.meta.dirname, 'public/images')));
 
 // Routing
 app.use(routes);

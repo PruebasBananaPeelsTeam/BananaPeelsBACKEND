@@ -1,6 +1,7 @@
 import Advert from '../models/Advert.js';
 import User from '../models/User.js';
 
+
 export async function getAdvertDetail(req, res, next) {
     try {
         const { id } = req.params;
