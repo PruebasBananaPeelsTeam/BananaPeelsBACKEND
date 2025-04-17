@@ -10,6 +10,8 @@ import { registerLimiter } from '../middlewares/registerLimiter.js';
 import { validateAdvert } from '../middlewares/validateAdvert.js';
 import { advertLimiter } from '../middlewares/advertLimiter.js';
 import { getAdvertDetail } from '../controllers/advertDetailController.js';
+import { forgotPassword } from '../controllers/forgotPasswordController.js';
+import { resetPassword } from '../controllers/resetPasswordController.js';
 
 const router = express.Router();
 
@@ -24,6 +26,9 @@ router.post(
 );
 router.post('/api/register', registerLimiter, createUser);
 router.post('/api/login', loginLimiter, login);
+
+router.post('/api/auth/forgot-password', forgotPassword);
+router.post('/api/auth/reset-password', resetPassword);
 
 router.get('/api/adverts/:id/:slug?', getAdvertDetail); //El slug es para hacerlo SEO-friendly desde el front
 
