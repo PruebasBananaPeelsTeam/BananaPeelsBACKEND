@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
 export const advertLimiter = rateLimit({
     windowMs: 60 * 1000,
@@ -7,6 +7,7 @@ export const advertLimiter = rateLimit({
     legacyHeaders: false,
     message: {
         error: true,
-        message: ' Has alcanzado el límite de peticiones. Por favor, espera un momento antes de volver a intentarlo.',
-    }
-})
+        message:
+            ' Has alcanzado el límite de peticiones. Por favor, espera un momento antes de volver a intentarlo.',
+    },
+});

@@ -10,6 +10,7 @@ import { registerLimiter } from '../middlewares/registerLimiter.js';
 import { validateAdvert } from '../middlewares/validateAdvert.js';
 import { advertLimiter } from '../middlewares/advertLimiter.js';
 import { getAdvertDetail } from '../controllers/advertDetailController.js';
+import { myAdverts } from '../controllers/myAdvertsController.js';
 
 const router = express.Router();
 
@@ -25,7 +26,9 @@ router.post(
 router.post('/api/register', registerLimiter, createUser);
 router.post('/api/login', loginLimiter, login);
 
-router.get('/api/adverts/:id/:slug?', getAdvertDetail); //El slug es para hacerlo SEO-friendly desde el front
+router.get('/api/adverts/:id/:slug?', getAdvertDetail); 
+
+router.get('/api/myAdverts', myAdverts);
 
 const aviableTags = [
     'lifestyle',
@@ -40,6 +43,6 @@ const aviableTags = [
 ];
 
 router.get('/api/tags', (req, res) => {
-    res.json({ results: aviableTags })
-})
+    res.json({ results: aviableTags });
+});
 export default router;

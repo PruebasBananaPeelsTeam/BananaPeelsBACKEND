@@ -4,11 +4,15 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-    username: z.string()
-    .min(1, 'Username is required (min 1)')
-    .max(25, 'Username is Too long (max 25)')
-    .trim()
-    .regex(/^[a-zA-Z0-9_.-]*$/, 'Only letters, numbers, underscores, dots and hyphens are allowed'),
+    username: z
+        .string()
+        .min(1, 'Username is required (min 1)')
+        .max(25, 'Username is Too long (max 25)')
+        .trim()
+        .regex(
+            /^[a-zA-Z0-9_.-]*$/,
+            'Only letters, numbers, underscores, dots and hyphens are allowed',
+        ),
     password: z.string().min(4),
 });
 
