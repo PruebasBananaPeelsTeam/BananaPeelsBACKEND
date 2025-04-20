@@ -13,19 +13,19 @@ import { getAdvertDetail } from '../controllers/advertDetailController.js';
 
 const router = express.Router();
 
-router.get('/api/adverts', advertsList);
+router.get('/adverts', advertsList);
 router.post(
-    '/api/adverts',
+    '/adverts',
     authMiddleware,
     advertLimiter,
     upload.single('image'),
     validateAdvert,
     createAdvert,
 );
-router.post('/api/register', registerLimiter, createUser);
-router.post('/api/login', loginLimiter, login);
+router.post('/register', registerLimiter, createUser);
+router.post('/login', loginLimiter, login);
 
-router.get('/api/adverts/:id/:slug?', getAdvertDetail); //El slug es para hacerlo SEO-friendly desde el front
+router.get('/adverts/:id/:slug?', getAdvertDetail); //El slug es para hacerlo SEO-friendly desde el front
 
 const aviableTags = [
     'lifestyle',
@@ -39,7 +39,7 @@ const aviableTags = [
     'sports',
 ];
 
-router.get('/api/tags', (req, res) => {
+router.get('/tags', (req, res) => {
     res.json({ results: aviableTags })
 })
 export default router;

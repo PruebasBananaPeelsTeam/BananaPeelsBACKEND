@@ -22,7 +22,7 @@ app.use(express.static(join(import.meta.dirname, 'public')));
 app.use('/images', express.static(join(import.meta.dirname, 'public/images')));
 
 // Routing
-app.use(routes);
+app.use('/api', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
