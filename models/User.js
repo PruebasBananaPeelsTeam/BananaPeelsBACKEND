@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        resetPasswordToken: String,
+        resetPasswordExpires: Date,
     },
     {
         timestamps: true, // crea campos createdAt y updatedAt
