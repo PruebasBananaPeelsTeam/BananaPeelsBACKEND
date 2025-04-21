@@ -25,7 +25,8 @@ router.post(
 router.post('/register', registerLimiter, createUser);
 router.post('/login', loginLimiter, login);
 
-router.get('/adverts/:id/:slug?', getAdvertDetail); //El slug es para hacerlo SEO-friendly desde el front
+router.get('/adverts/:id/:slug?', getAdvertDetail); 
+
 
 const aviableTags = [
     'lifestyle',
