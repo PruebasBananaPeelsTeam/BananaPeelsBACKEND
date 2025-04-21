@@ -26,9 +26,9 @@ router.post(
 router.post('/register', registerLimiter, createUser);
 router.post('/login', loginLimiter, login);
 
-router.get('/api/adverts/:id/:slug?', getAdvertDetail); 
+router.get('/adverts/:id/:slug?', getAdvertDetail); 
 
-router.get('/api/myAdverts', authMiddleware, myAdverts);
+router.get('/myAdverts', authMiddleware, myAdverts);
 
 const aviableTags = [
     'lifestyle',
