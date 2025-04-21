@@ -5,22 +5,24 @@ import { z } from 'zod';
 const registerSchema = z.object({
     email: z.string().email(),
     password: z.string().min(4, 'Password must be at least 4 characters'),
-    username: z.string().min(3, 'Username must be at least 3 characters').max(20, 'Username must not exceed 20 characters'),
+    username: z
+        .string()
+        .min(3, 'Username must be at least 3 characters')
+        .max(20, 'Username must not exceed 20 characters'),
 });
 
 export async function createUser(req, res, next) {
     try {
-
         const { email, password, username } = registerSchema.parse(req.body);
 
         const normalizedEmail = email.toLowerCase();
 
-         const existingEmail = await User.findOne({ email: normalizedEmail });
-         if (existingEmail) {
-             return next(createError(409, 'Email is already in use 😕'));
-         }
+        const existingEmail = await User.findOne({ email: normalizedEmail });
+        if (existingEmail) {
+            return next(createError(409, 'Email is already in use 😕'));
+        }
 
-         const existingUsername = await User.findOne({ username });
+        const existingUsername = await User.findOne({ username });
         if (existingUsername) {
             return next(createError(409, 'Username is already taken 😕'));
         }
@@ -31,7 +33,7 @@ export async function createUser(req, res, next) {
         // Crear una instancia de usuario
         const user = new User({
             email: normalizedEmail,
-            password: hashedPassword, 
+            password: hashedPassword,
             username,
         });
 
@@ -52,7 +54,7 @@ export async function createUser(req, res, next) {
         // zod error handler
         if (err instanceof z.ZodError) {
             return next(
-                createError(400, err.errors.map((e) => e.message).join(', '))
+                createError(400, err.errors.map((e) => e.message).join(', ')),
             );
         }
         next(err);

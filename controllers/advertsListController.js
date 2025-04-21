@@ -13,7 +13,10 @@ export async function advertsList(req, res, next) {
         const priceMax = req.query.priceMax;
 
         if (priceMin !== undefined && priceMax !== undefined) {
-            filter.price = { $gte: parseFloat(priceMin), $lte: parseFloat(priceMax) };
+            filter.price = {
+                $gte: parseFloat(priceMin),
+                $lte: parseFloat(priceMax),
+            };
         } else if (priceMin !== undefined) {
             filter.price = { $gte: parseFloat(priceMin) };
         } else if (priceMax !== undefined) {
@@ -30,9 +33,8 @@ export async function advertsList(req, res, next) {
         const skip = (page - 1) * limit;
 
         // Sorting
-        const sortDirection = req.query.sortDirection === 'asc' ? 1 : -1; 
+        const sortDirection = req.query.sortDirection === 'asc' ? 1 : -1;
 
-        
         const fields = req.query.fields ? req.query.fields.split(',') : null;
 
         const adverts = await Advert.find(filter)
@@ -43,11 +45,16 @@ export async function advertsList(req, res, next) {
             .exec();
 
         // Get total number of ads to calculate total pages
-        
+
         const totalAds = await Advert.countDocuments(filter);
         const totalPages = Math.ceil(totalAds / limit);
 
-        res.json({ success: true, results: adverts, totalPages: totalPages, currentPage: page });
+        res.json({
+            success: true,
+            results: adverts,
+            totalPages: totalPages,
+            currentPage: page,
+        });
     } catch (err) {
         next(err);
     }

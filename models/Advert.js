@@ -4,7 +4,11 @@ const AdvertSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     owner: { type: String, required: true },
-    ownerId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     price: { type: Number, required: true },
     image: String,
     tags: [{ type: String }],

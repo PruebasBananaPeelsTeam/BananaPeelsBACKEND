@@ -15,7 +15,7 @@ export const createAdvert = async (req, res, next) => {
                 ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 : null,
             owner: req.user.username,
-            ownerId: req.user._id
+            ownerId: req.user._id,
         });
 
         const savedAdvert = await advert.save();
