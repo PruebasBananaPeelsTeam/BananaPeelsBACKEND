@@ -20,7 +20,7 @@ export async function getAdvertDetail(req, res, next) {
 
         res.json({
             success: true,
-            result: {
+            results: {
                 id: advert._id,
                 name: advert.name,
                 image: advert.image,
