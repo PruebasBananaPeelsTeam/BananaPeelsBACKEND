@@ -27,15 +27,11 @@ router.post(
 );
 router.post('/register', registerLimiter, createUser);
 router.post('/login', loginLimiter, login);
-
 router.get('/adverts/:id/:slug?', getAdvertDetail); 
-
 router.get('/myAdverts', authMiddleware, myAdverts);
-router.post('/api/auth/forgot-password', forgotPassword);
-router.post('/api/auth/reset-password', resetPassword);
-
+router.post('/auth/forgot-password', forgotPassword);
+router.post('/auth/reset-password', resetPassword);
 router.get('/adverts/:id/:slug?', getAdvertDetail); 
-
 router.get('/myAdverts', authMiddleware, myAdverts);
 
 const aviableTags = [
