@@ -12,7 +12,7 @@ export const createAdvert = async (req, res, next) => {
             tags,
             type,
             image: req.file
-                ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                ? req.file.buffer.toString('base64')
                 : null,
             owner: req.user.username,
             ownerId: req.user._id,
