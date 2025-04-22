@@ -35,15 +35,10 @@ router.get('/adverts/:id/:slug?', getAdvertDetail);
 router.get('/myAdverts', authMiddleware, myAdverts);
 
 const aviableTags = [
-    'lifestyle',
-    'motor',
-    'work',
-    'mobile',
-    'computer',
-    'home',
-    'garden',
-    'clothes',
-    'sports',
+    'Garden',
+    'Decoration',
+    'Ilumination',
+    'Forniture',
 ];
 
 router.get('/tags', (req, res) => {
