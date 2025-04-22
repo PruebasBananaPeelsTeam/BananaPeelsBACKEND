@@ -11,6 +11,7 @@ import { validateAdvert } from '../middlewares/validateAdvert.js';
 import { advertLimiter } from '../middlewares/advertLimiter.js';
 import { getAdvertDetail } from '../controllers/advertDetailController.js';
 import { myAdverts } from '../controllers/myAdvertsController.js';
+import { toggleReservedAdvert } from '../controllers/advertController.js'
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.post('/login', loginLimiter, login);
 router.get('/adverts/:id/:slug?', getAdvertDetail); 
 
 router.get('/myAdverts', authMiddleware, myAdverts);
+router.patch('/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
 
 const aviableTags = [
     'lifestyle',
