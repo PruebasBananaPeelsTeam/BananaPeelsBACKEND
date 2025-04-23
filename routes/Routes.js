@@ -14,6 +14,7 @@ import { myAdverts } from '../controllers/myAdvertsController.js';
 import { forgotPassword } from '../controllers/forgotPasswordController.js';
 import { resetPassword } from '../controllers/resetPasswordController.js';
 import { updateAdvert } from '../controllers/updateAdvertController.js';
+import { toggleReservedAdvert } from '../controllers/advertController.js'
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.put(
     validateAdvert, 
     updateAdvert,
 );
+router.patch('/adverts/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
 
 const aviableTags = [
     'Garden',
