@@ -29,6 +29,7 @@ export async function getAdvertDetail(req, res, next) {
                 type: advert.type,
                 price: advert.price,
                 tags: advert.tags,
+                reserved: advert.reserved,
                 owner: user || advert.owner,
                 createdAt: advert.createdAt,
             },
