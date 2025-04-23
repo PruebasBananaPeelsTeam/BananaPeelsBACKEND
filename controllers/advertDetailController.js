@@ -21,6 +21,7 @@ export async function getAdvertDetail(req, res, next) {
         res.json({
             success: true,
             results: {
+                _id: advert._id,
                 id: advert._id,
                 name: advert.name,
                 image: advert.image,

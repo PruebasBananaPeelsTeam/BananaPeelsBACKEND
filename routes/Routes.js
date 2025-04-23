@@ -30,7 +30,7 @@ router.post('/login', loginLimiter, login);
 router.get('/adverts/:id/:slug?', getAdvertDetail); 
 
 router.get('/myAdverts', authMiddleware, myAdverts);
-router.patch('/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
+router.patch('/adverts/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
 
 const aviableTags = [
     'lifestyle',
