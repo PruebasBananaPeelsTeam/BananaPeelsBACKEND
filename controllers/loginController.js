@@ -42,7 +42,13 @@ export const login = async (req, res, next) => {
                     next(err);
                     return;
                 }
-                res.json({ tokenJWT });
+                res.json({
+                    tokenJWT,
+                    user: {
+                        _id: userFound._id,
+                        username: userFound.username,
+                    },
+                });
             },
         );
     } catch (error) {

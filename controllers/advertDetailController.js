@@ -21,6 +21,7 @@ export async function getAdvertDetail(req, res, next) {
         res.json({
             success: true,
             results: {
+                _id: advert._id,
                 id: advert._id,
                 name: advert.name,
                 image: advert.image,
@@ -28,6 +29,7 @@ export async function getAdvertDetail(req, res, next) {
                 type: advert.type,
                 price: advert.price,
                 tags: advert.tags,
+                reserved: advert.reserved,
                 owner: user || advert.owner,
                 createdAt: advert.createdAt,
             },
