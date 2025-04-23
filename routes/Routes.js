@@ -13,6 +13,7 @@ import { getAdvertDetail } from '../controllers/advertDetailController.js';
 import { myAdverts } from '../controllers/myAdvertsController.js';
 import { forgotPassword } from '../controllers/forgotPasswordController.js';
 import { resetPassword } from '../controllers/resetPasswordController.js';
+import { updateAdvert } from '../controllers/updateAdvertController.js';
 
 const router = express.Router();
 
@@ -33,6 +34,13 @@ router.post('/auth/forgot-password', forgotPassword);
 router.post('/auth/reset-password', resetPassword);
 router.get('/adverts/:id/:slug?', getAdvertDetail); 
 router.get('/myAdverts', authMiddleware, myAdverts);
+router.put(
+    '/adverts/:id',
+    authMiddleware,
+    upload.single('image'), 
+    validateAdvert, 
+    updateAdvert,
+);
 
 const aviableTags = [
     'Garden',
