@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 import Advert from "../models/Advert.js";
 
 export const deleteUser = async (req, res) => {
