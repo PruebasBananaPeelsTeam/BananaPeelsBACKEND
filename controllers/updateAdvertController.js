@@ -8,7 +8,9 @@ export async function updateAdvert(req, res, next) {
         const advert = await Advert.findById(advertId);
 
         if (!advert) {
-            return res.status(404).json({ error: 'Advert not found' });
+            return res
+                .status(404)
+                .json({ success: false, message: 'Advert not found' });
         }
 
         if (advert.ownerId.toString() !== userId.toString()) {
