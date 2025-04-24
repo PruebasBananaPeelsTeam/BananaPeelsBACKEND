@@ -16,10 +16,12 @@ import { resetPassword } from '../controllers/resetPasswordController.js';
 import { updateAdvert } from '../controllers/updateAdvertController.js';
 import { toggleReservedAdvert } from '../controllers/advertController.js'
 import { deleteUser } from '../controllers/deleteUserController.js';
+import { getUserAdverts } from '../controllers/getUserAdvertsController.js';
 
 const router = express.Router();
 
 router.get('/adverts', advertsList);
+router.get('/users/:username/adverts', getUserAdverts)
 router.post(
     '/adverts',
     authMiddleware,
