@@ -16,6 +16,7 @@ import { resetPassword } from '../controllers/resetPasswordController.js';
 import { updateAdvert } from '../controllers/updateAdvertController.js';
 import { toggleReservedAdvert } from '../controllers/advertController.js'
 import { deleteUser } from '../controllers/deleteUserController.js';
+import chatRoutes from './chatRoutes.js';
 
 const router = express.Router();
 
@@ -56,4 +57,7 @@ const aviableTags = [
 router.get('/tags', (req, res) => {
     res.json({ results: aviableTags })
 })
+
+router.use('/chat', chatRoutes);
+
 export default router;
