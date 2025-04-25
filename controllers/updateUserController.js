@@ -37,12 +37,11 @@ export const updateUser = async (req, res) => {
             user.password = await User.hashPassword(password);
         }
 
-        // Guardar los cambios en la base de datos
         await user.save();
 
-        res.json({ message: 'Datos actualizados correctamente' });
+        res.json({ message: 'Data updated successfully' });
     } catch (error) {
         console.error('❌ Error actualizando usuario:', error.message);
-        res.status(500).json({ error: 'Error actualizando usuario' });
+        res.status(500).json({ error: 'Error updating user' });
     }
 };
