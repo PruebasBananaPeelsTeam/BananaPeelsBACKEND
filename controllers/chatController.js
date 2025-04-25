@@ -43,4 +43,47 @@ export async function getOrCreateChat(req, res, next) {
     next(error);
   }
 }
-``
+
+/**
+ * GET messages of a chat (sorted by time)
+ */
+export async function getMessages(req, res, next) {
+  try {
+    const { chatId } = req.params;
+
+    const messages = await Message.find({ chatId })
+      .sort({ createdAt: 1 })
+      .populate('sender', 'username');
+
+    res.json({ success: true, messages });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * POST a new message to a chat
+ */
+export async function postMessage(req, res, next) {
+  try {
+    const { chatId } = req.params;
+    const { text } = req.body;
+    const sender = req.user._id;
+
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      return res.status(400).json({ error: 'Message text is required' });
+    }
+
+    const newMessage = new Message({
+      chatId,
+      sender,
+      text: text.trim(),
+    });
+
+    await newMessage.save();
+
+    res.status(201).json({ success: true, message: newMessage });
+  } catch (error) {
+    next(error);
+  }
+}
