@@ -8,6 +8,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import app from '../app.js';
 import debugLib from 'debug';
+import { chatSocket } from '../sockets/chatSocket.js';
 
 const debug = debugLib('npx-express-generator-ejs:server');
 
@@ -30,6 +31,8 @@ const io = new Server(server, {
         origin: '*', // IMPORTANTE: Mejor poner el dominio de tu frontend en producción por seguridad
     },
 });
+
+chatSocket(io);
 
 // >>> Escuchar conexiones
 io.on('connection', (socket) => {
