@@ -22,10 +22,10 @@ export async function advertsList(req, res, next) {
             filter.price = { $lte: parseFloat(priceMax) };
         }
 
-    if (req.query.tag) {
-      let tags = req.query.tag;
-      filter.tags = { $in: tags }; // ✅ buscará los anuncios que contengan al menos uno de esos tags
-    }
+        if (req.query.tag) {
+          const tags = Array.isArray(req.query.tag) ? req.query.tag : [req.query.tag];
+          filter.tags = { $in: tags };
+        }
 
 
     const limit = parseInt(req.query.limit) || 10;
