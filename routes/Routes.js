@@ -17,6 +17,7 @@ import { updateAdvert } from '../controllers/updateAdvertController.js';
 import { toggleReservedAdvert } from '../controllers/advertController.js'
 import { deleteUser } from '../controllers/deleteUserController.js';
 import { getUserAdverts } from '../controllers/getUserAdvertsController.js';
+import { updateUser } from '../controllers/updateUserController.js';
 
 const router = express.Router();
 
@@ -47,6 +48,7 @@ router.put(
 );
 router.patch('/adverts/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
 router.delete('/users/me', authMiddleware, deleteUser)
+router.put('/users/me', authMiddleware, updateUser);
 
 const aviableTags = [
     'Garden',
