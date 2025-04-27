@@ -117,3 +117,21 @@ export async function postMessage(req, res, next) {
         next(error);
     }
 }
+
+// Busca todos los Chat donde el usuario logueado (req.user._id) sea uno de los participants
+export async function getMyChats(req, res, next) {
+    try {
+      const userId = req.user._id;
+  
+      const chats = await Chat.find({
+        participants: userId,
+      }).populate('advertId', 'name') // para mostrar el nombre del anuncio
+        .populate('participants', 'username')
+        .sort({ updatedAt: -1 }); // ordenados por último actualizado
+  
+      res.json({ success: true, chats });
+    } catch (error) {
+      next(error);
+    }
+  }
+  
