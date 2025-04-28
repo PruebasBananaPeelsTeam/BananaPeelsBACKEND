@@ -25,7 +25,10 @@ export async function deleteAdvert (req, res, next) {
         //Eliminar el anuncio
         await advert.deleteOne();
 
-        res.json({ success: true, message: 'Advert deleted successfully' });
+        //Enviar la respuesta en formato JSON al frontend
+        res.json({ 
+            success: true, 
+            message: 'Advert deleted successfully' });
 
     } catch (err) {
         next (err)
