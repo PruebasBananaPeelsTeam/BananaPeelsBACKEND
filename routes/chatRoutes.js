@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.js';
-import { getOrCreateChat, getMessages, postMessage, getMyChats  } from '../controllers/chatController.js';
+import { getOrCreateChat, getMessages, postMessage, getMyChats, checkChatByAdvert  } from '../controllers/chatController.js';
 
 const router = express.Router();
 
@@ -15,5 +15,5 @@ router.get('/:chatId/messages', authMiddleware, getMessages);
 // Enviar un mensaje en un chat
 router.post('/:chatId/message', authMiddleware, postMessage);
 
-
+router.get('/advert/:advertId/check', authMiddleware, checkChatByAdvert);
 export default router;

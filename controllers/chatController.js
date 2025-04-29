@@ -135,3 +135,24 @@ export async function getMyChats(req, res, next) {
     }
   }
   
+
+export async function checkChatByAdvert(req, res, next) {
+    try {
+      const { advertId } = req.params;
+      const userId = req.user._id;
+  
+      const existingChat = await Chat.findOne({
+        advertId,
+        participants: userId,
+      });
+  
+      if (existingChat) {
+        return res.json({ success: true, chat: existingChat });
+      } else {
+        return res.json({ success: false });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+  
