@@ -19,6 +19,7 @@ import { deleteUser } from '../controllers/deleteUserController.js';
 import { getUserAdverts } from '../controllers/getUserAdvertsController.js';
 import { updateUser } from '../controllers/updateUserController.js';
 import { deleteAdvert } from '../controllers/deleteAdvertController.js'
+import { getFavorites, addFavorite, removeFavorite } from '../controllers/favoritesController.js';
 
 const router = express.Router();
 
@@ -61,4 +62,10 @@ const aviableTags = [
 router.get('/tags', (req, res) => {
     res.json({ results: aviableTags })
 })
+
+router.get('/favorites', authMiddleware, getFavorites);
+router.post('/favorites/:advertId', authMiddleware, addFavorite);
+router.delete('/favorites/:advertId', authMiddleware, removeFavorite);
+
+
 export default router;
