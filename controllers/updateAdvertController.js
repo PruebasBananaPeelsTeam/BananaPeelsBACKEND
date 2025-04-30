@@ -14,15 +14,16 @@ export async function updateAdvert(req, res, next) {
         }
 
         if (advert.ownerId.toString() !== userId.toString()) {
-            return res.status(403).json({ error: 'You are not authorized to edit this advert' });
+            return res
+                .status(403)
+                .json({ error: 'You are not authorized to edit this advert' });
         }
 
-        
         const updatedFields = {
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            image: req.file?.filename || advert.image, 
+            image: req.file?.filename || advert.image,
             tags: req.body.tags,
             type: req.body.type,
             reserved: req.body.reserved,

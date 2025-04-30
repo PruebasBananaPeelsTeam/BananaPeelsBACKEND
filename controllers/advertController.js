@@ -31,30 +31,28 @@ export async function toggleReservedAdvert(req, res, next) {
 
 export async function toggleSoldAdvert(req, res, next) {
     try {
-        const { id } = req.params
-        const userId = req.user._id
+        const { id } = req.params;
+        const userId = req.user._id;
 
-        const advert = await Advert.findById(id)
+        const advert = await Advert.findById(id);
         if (!advert) {
-            return next(createError(404, 'Advert not found'))
+            return next(createError(404, 'Advert not found'));
         }
 
         if (!advert.ownerId.equals(userId)) {
-            return next(createError(403, 'Unauthorized action'))
+            return next(createError(403, 'Unauthorized action'));
         }
 
-        advert.sold = !advert.sold
-        await advert.save()
+        advert.sold = !advert.sold;
+        await advert.save();
 
         res.status(200).json({
             success: true,
             message: `Advert ${advert.sold ? 'marked as sold' : 'unmarked as sold'}`,
             sold: advert.sold,
-        })
+        });
     } catch (error) {
-        console.error('❌ Error toggling sold state:', error.message)
-        return next(createError(500, 'Internal server error'))
-        
+        console.error('❌ Error toggling sold state:', error.message);
+        return next(createError(500, 'Internal server error'));
     }
-    
 }

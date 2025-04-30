@@ -1,15 +1,15 @@
 import Advert from '../models/Advert.js';
 
 export async function advertsList(req, res, next) {
-  try {
-    const filter = {};
+    try {
+        const filter = {};
 
-    if (req.query.name) {
-      filter.name = new RegExp(req.query.name, 'i');
-    }
+        if (req.query.name) {
+            filter.name = new RegExp(req.query.name, 'i');
+        }
 
-    const priceMin = req.query.priceMin;
-    const priceMax = req.query.priceMax;
+        const priceMin = req.query.priceMin;
+        const priceMax = req.query.priceMax;
 
         if (priceMin !== undefined && priceMax !== undefined) {
             filter.price = {
@@ -23,38 +23,37 @@ export async function advertsList(req, res, next) {
         }
 
         if (req.query.tag) {
-          const tags = Array.isArray(req.query.tag) ? req.query.tag : [req.query.tag];
-          filter.tags = { $in: tags };
+            const tags = Array.isArray(req.query.tag)
+                ? req.query.tag
+                : [req.query.tag];
+            filter.tags = { $in: tags };
         }
 
+        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
+        const skip = (page - 1) * limit;
 
-    const limit = parseInt(req.query.limit) || 10;
-    const page = parseInt(req.query.page) || 1;
-    const skip = (page - 1) * limit;
+        const sortDirection = req.query.sortDirection === 'asc' ? 1 : -1;
 
-    const sortDirection = req.query.sortDirection === 'asc' ? 1 : -1;
+        const fields = req.query.fields ? req.query.fields.split(',') : null;
 
-    const fields = req.query.fields ? req.query.fields.split(',') : null;
+        const adverts = await Advert.find(filter)
+            .select(fields)
+            .sort({ createdAt: sortDirection })
+            .skip(skip)
+            .limit(limit)
+            .exec();
 
-    
-    const adverts = await Advert.find(filter)
-      .select(fields)
-      .sort({ createdAt: sortDirection })
-      .skip(skip)
-      .limit(limit)
-      .exec();
+        const totalAds = await Advert.countDocuments(filter);
+        const totalPages = Math.ceil(totalAds / limit);
 
-
-    const totalAds = await Advert.countDocuments(filter);
-    const totalPages = Math.ceil(totalAds / limit);
-
-    res.json({
-      success: true,
-      results: adverts,
-      totalPages,
-      currentPage: page,
-    });
-  } catch (err) {
-    next(err);
-  }
+        res.json({
+            success: true,
+            results: adverts,
+            totalPages,
+            currentPage: page,
+        });
+    } catch (err) {
+        next(err);
+    }
 }

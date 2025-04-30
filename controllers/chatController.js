@@ -121,38 +121,37 @@ export async function postMessage(req, res, next) {
 // Busca todos los Chat donde el usuario logueado (req.user._id) sea uno de los participants
 export async function getMyChats(req, res, next) {
     try {
-      const userId = req.user._id;
-  
-      const chats = await Chat.find({
-        participants: userId,
-      }).populate('advertId', 'name') // para mostrar el nombre del anuncio
-        .populate('participants', 'username')
-        .sort({ updatedAt: -1 }); // ordenados por último actualizado
-  
-      res.json({ success: true, chats });
+        const userId = req.user._id;
+
+        const chats = await Chat.find({
+            participants: userId,
+        })
+            .populate('advertId', 'name') // para mostrar el nombre del anuncio
+            .populate('participants', 'username')
+            .sort({ updatedAt: -1 }); // ordenados por último actualizado
+
+        res.json({ success: true, chats });
     } catch (error) {
-      next(error);
+        next(error);
     }
-  }
-  
+}
 
 export async function checkChatByAdvert(req, res, next) {
     try {
-      const { advertId } = req.params;
-      const userId = req.user._id;
-  
-      const existingChat = await Chat.findOne({
-        advertId,
-        participants: userId,
-      });
-  
-      if (existingChat) {
-        return res.json({ success: true, chat: existingChat });
-      } else {
-        return res.json({ success: false });
-      }
+        const { advertId } = req.params;
+        const userId = req.user._id;
+
+        const existingChat = await Chat.findOne({
+            advertId,
+            participants: userId,
+        });
+
+        if (existingChat) {
+            return res.json({ success: true, chat: existingChat });
+        } else {
+            return res.json({ success: false });
+        }
     } catch (error) {
-      next(error);
+        next(error);
     }
-  }
-  
+}

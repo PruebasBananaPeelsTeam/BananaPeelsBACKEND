@@ -18,7 +18,9 @@ export const updateUser = async (req, res) => {
         if (email && email !== user.email) {
             const emailExists = await User.findOne({ email });
             if (emailExists) {
-                return res.status(400).json({ error: 'The email is already in use' });
+                return res
+                    .status(400)
+                    .json({ error: 'The email is already in use' });
             }
             user.email = email;
         }
@@ -27,7 +29,9 @@ export const updateUser = async (req, res) => {
         if (username && username !== user.username) {
             const usernameExists = await User.findOne({ username });
             if (usernameExists) {
-                return res.status(400).json({ error: 'The name is already in use' });
+                return res
+                    .status(400)
+                    .json({ error: 'The name is already in use' });
             }
             user.username = username;
         }
