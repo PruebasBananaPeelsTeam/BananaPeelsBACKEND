@@ -5,8 +5,10 @@
  */
 import 'dotenv/config';
 import { createServer } from 'node:http';
+import { Server } from 'socket.io';
 import app from '../app.js';
 import debugLib from 'debug';
+import { chatSocket } from '../sockets/chatSocket.js';
 
 const debug = debugLib('npx-express-generator-ejs:server');
 
@@ -22,6 +24,24 @@ app.set('port', port);
  */
 
 const server = createServer(app);
+
+// soket io listening to clients conections
+const io = new Server(server, {
+    cors: {
+        origin: '*', // IMPORTANTE: Mejor poner el dominio de tu frontend en producción por seguridad
+    },
+});
+
+chatSocket(io);
+
+// >>> Escuchar conexiones
+io.on('connection', (socket) => {
+    console.log('🟢 New client connected:', socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('🔴 Client disconnected:', socket.id);
+    });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
