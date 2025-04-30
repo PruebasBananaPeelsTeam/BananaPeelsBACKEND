@@ -23,7 +23,8 @@ export async function updateAdvert(req, res, next) {
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            image: req.file?.filename || advert.image,
+            //Si req.file existe(hay una nueva imagen), convertir a base64 y usarlo. Si no, mantener la imagen anterior (advert.image)
+            image: req.file ? req.file.buffer.toString('base64') : advert.image, 
             tags: req.body.tags,
             type: req.body.type,
             reserved: req.body.reserved,
