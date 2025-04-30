@@ -20,6 +20,7 @@ import { getUserAdverts } from '../controllers/getUserAdvertsController.js';
 import { updateUser } from '../controllers/updateUserController.js';
 import { deleteAdvert } from '../controllers/deleteAdvertController.js'
 import chatRoutes from './chatRoutes.js';
+import { toggleSoldAdvert } from '../controllers/advertController.js';
 
 const router = express.Router();
 
@@ -49,6 +50,7 @@ router.put(
     updateAdvert,
 );
 router.patch('/adverts/:id/toggle-reserved', authMiddleware, toggleReservedAdvert)
+router.patch('/adverts/:id/toggle-sold', authMiddleware, toggleSoldAdvert)
 router.delete('/users/me', authMiddleware, deleteUser)
 router.put('/users/me', authMiddleware, updateUser);
 router.delete('/adverts/:id', authMiddleware, deleteAdvert)
