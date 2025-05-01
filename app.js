@@ -13,7 +13,25 @@ console.log('✅ MongoDB connected!');
 const app = express();
 
 // middlewares
-app.use(cors());
+const allowedOrigins = [
+    'https://bananapeels.duckdns.org',
+    'http://localhost:5173',
+  ];
+  
+  app.use(
+    cors({
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
