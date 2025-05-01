@@ -48,6 +48,7 @@ export const login = async (req, res, next) => {
                         _id: userFound._id,
                         username: userFound.username,
                         email: userFound.email,
+                        favorites: userFound.favorites,
                     },
                 });
             },

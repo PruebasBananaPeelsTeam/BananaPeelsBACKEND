@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema(
         },
         resetPasswordToken: String,
         resetPasswordExpires: Date,
+
+        favorites: [{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'Advert',
+        }],
     },
     {
         timestamps: true, // crea campos createdAt y updatedAt

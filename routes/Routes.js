@@ -21,6 +21,7 @@ import { updateUser } from '../controllers/updateUserController.js';
 import { deleteAdvert } from '../controllers/deleteAdvertController.js';
 import chatRoutes from './chatRoutes.js';
 import { toggleSoldAdvert } from '../controllers/advertController.js';
+import { getFavorites, addFavorite, removeFavorite } from '../controllers/favoritesController.js';
 
 const router = express.Router();
 
@@ -65,5 +66,11 @@ router.get('/tags', (req, res) => {
 });
 
 router.use('/chat', chatRoutes);
+
+
+router.get('/favorites', authMiddleware, getFavorites);
+router.post('/favorites/:advertId', authMiddleware, addFavorite);
+router.delete('/favorites/:advertId', authMiddleware, removeFavorite);
+
 
 export default router;
