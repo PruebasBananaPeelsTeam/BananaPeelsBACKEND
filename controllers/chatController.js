@@ -177,7 +177,7 @@ export async function getUnreadStatus(req, res, next) {
         sender: { $ne: userId },
         readBy: { $ne: userId },
       });
-  
+      console.log('🧠 Checking unread for user:', userId)
       res.json({ success: true, hasUnreadMessages: !!hasUnread });
     } catch (error) {
       next(error);
