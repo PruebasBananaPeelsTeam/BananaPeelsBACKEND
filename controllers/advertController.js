@@ -1,5 +1,6 @@
 import Advert from '../models/Advert.js';
 import createError from 'http-errors';
+import { notifyFavorites } from '../lib/createNotifications.js';
 
 export async function toggleReservedAdvert(req, res, next) {
     try {
@@ -17,6 +18,7 @@ export async function toggleReservedAdvert(req, res, next) {
         // turn the reserve state and save
         advert.reserved = !advert.reserved;
         await advert.save();
+        await notifyFavorites(advert._id, advert.reserved ? 'An advert you favorited has been reserved' : 'An advert you favorited is no longer reserved')
 
         res.status(200).json({
             success: true,
@@ -45,6 +47,7 @@ export async function toggleSoldAdvert(req, res, next) {
 
         advert.sold = !advert.sold;
         await advert.save();
+        await notifyFavorites(advert._id, advert.sold ? 'An advert you favorited was marked as sold' : 'An advert you favorited is back on sale')
 
         res.status(200).json({
             success: true,

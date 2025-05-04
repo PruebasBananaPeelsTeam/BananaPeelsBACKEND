@@ -16,10 +16,9 @@ export const getNotifications = async (req, res, next) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Ordenar por fecha descendente
-        const sortedNotifications = user.notifications.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-        );
+        const sortedNotifications = Array.isArray(user.notifications)
+            ? user.notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            : [];
 
         res.json({
             success: true,
@@ -30,6 +29,7 @@ export const getNotifications = async (req, res, next) => {
         next(err);
     }
 };
+
 
 /**
  * Marcar una notificación como leída

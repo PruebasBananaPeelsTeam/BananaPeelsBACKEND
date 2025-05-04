@@ -1,4 +1,5 @@
 import Advert from '../models/Advert.js';
+import { notifyFavorites } from '../lib/createNotifications.js';
 
 export async function updateAdvert(req, res, next) {
     try {
@@ -18,6 +19,7 @@ export async function updateAdvert(req, res, next) {
                 .status(403)
                 .json({ error: 'You are not authorized to edit this advert' });
         }
+        const originalPrice = advert.price
 
         const updatedFields = {
             name: req.body.name,
@@ -34,6 +36,11 @@ export async function updateAdvert(req, res, next) {
         Object.assign(advert, updatedFields);
 
         await advert.save();
+
+        if (originalPrice !== advert.price) {
+            const message = `The price of an advert you favorited has changed from ${originalPrice} to ${advert.price}`;
+            await notifyFavorites(advert._id, message);
+        }
 
         res.json({ success: true, advert });
     } catch (err) {

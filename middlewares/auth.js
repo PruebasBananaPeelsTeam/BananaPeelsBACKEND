@@ -19,6 +19,7 @@ export const authMiddleware = async (req, res, next) => {
         }
 
         req.user = user;
+        req.user._id = user._id.toString()
         next();
     } catch (error) {
         console.error('❌ JWT error:', error.message);
