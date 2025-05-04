@@ -27,6 +27,14 @@ const userSchema = new mongoose.Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref: 'Advert',
         }],
+        notifications: [
+            {
+                advertId: { type: mongoose.Schema.Types.ObjectId, ref: 'Advert' },
+                message: String,
+                read: { type: Boolean, default: false },
+                createdAt: { type: Date, default: Date.now }
+            }
+        ]
     },
     {
         timestamps: true, // crea campos createdAt y updatedAt

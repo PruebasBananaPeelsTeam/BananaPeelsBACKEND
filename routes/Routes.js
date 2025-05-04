@@ -22,11 +22,14 @@ import { deleteAdvert } from '../controllers/deleteAdvertController.js';
 import chatRoutes from './chatRoutes.js';
 import { toggleSoldAdvert } from '../controllers/advertController.js';
 import { getFavorites, addFavorite, removeFavorite } from '../controllers/favoritesController.js';
+import { getNotifications, markNotificationAsRead } from '../controllers/getNotificationsController.js';
 
 const router = express.Router();
 
 router.get('/adverts', advertsList);
 router.get('/users/:username/adverts', getUserAdverts);
+router.get('/notifications', authMiddleware, getNotifications);
+
 router.post(
     '/adverts',
     authMiddleware,
@@ -56,6 +59,7 @@ router.patch(
     toggleReservedAdvert,
 );
 router.patch('/adverts/:id/toggle-sold', authMiddleware, toggleSoldAdvert);
+router.patch('/notifications/:id', authMiddleware, markNotificationAsRead);
 router.delete('/users/me', authMiddleware, deleteUser);
 router.put('/users/me', authMiddleware, updateUser);
 router.delete('/adverts/:id', authMiddleware, deleteAdvert);
