@@ -1,9 +1,16 @@
 import Advert from '../models/Advert.js';
+import sharp from 'sharp';
 
 // Controlador para crear un nuevo anuncio
 export const createAdvert = async (req, res, next) => {
     try {
         const { name, description, price, tags, type } = req.body;
+
+        const imageBuffer = req.file ? await sharp(req.file.buffer)
+            .resize(1024)
+            .jpeg({ quality: 80})
+            .toBuffer()
+        : null
 
         const advert = new Advert({
             name,
@@ -11,7 +18,7 @@ export const createAdvert = async (req, res, next) => {
             price,
             tags,
             type,
-            image: req.file ? req.file.buffer.toString('base64') : null,
+            image: imageBuffer ? imageBuffer.toString('base64') : null,
             owner: req.user.username,
             ownerId: req.user._id,
         });
