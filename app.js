@@ -11,6 +11,7 @@ await connectMongoose();
 console.log('✅ MongoDB connected!');
 
 const app = express();
+app.set('io', null);
 
 // middlewares
 const allowedOrigins = [

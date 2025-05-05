@@ -82,8 +82,8 @@ export async function getMessages(req, res, next) {
             },
             {
                 $addToSet: { readBy: userId },
-            }
-        )
+            },
+        );
 
         const messages = await Message.find({ chatId })
             .sort({ createdAt: 1 })
@@ -123,6 +123,20 @@ export async function postMessage(req, res, next) {
         });
 
         await newMessage.save();
+        
+        // Emitimos al otro participante que hay un nuevo mensaje
+        const recipientId = chat.participants.find(
+            (participant) => participant.toString() !== sender.toString(),
+        );
+
+        // Asegúrate de tener acceso a `req.io` desde aquí
+        if (req.io) {
+            console.log('✅ req.io está disponible en postMessage')
+            req.io.to(recipientId.toString()).emit('newMessage', {
+                chatId: chat._id,
+                message: newMessage,
+            });
+        }
 
         res.status(201).json({ success: true, message: newMessage });
     } catch (error) {
@@ -170,16 +184,16 @@ export async function checkChatByAdvert(req, res, next) {
 
 export async function getUnreadStatus(req, res, next) {
     try {
-      const userId = req.user._id;
-  
-      // Buscar si hay al menos un mensaje que no ha sido leído por el usuario y que no ha sido enviado por él
-      const hasUnread = await Message.exists({
-        sender: { $ne: userId },
-        readBy: { $ne: userId },
-      });
-      console.log('🧠 Checking unread for user:', userId)
-      res.json({ success: true, hasUnreadMessages: !!hasUnread });
+        const userId = req.user._id;
+
+        // Buscar si hay al menos un mensaje que no ha sido leído por el usuario y que no ha sido enviado por él
+        const hasUnread = await Message.exists({
+            sender: { $ne: userId },
+            readBy: { $ne: userId },
+        });
+        console.log('🧠 Checking unread for user:', userId);
+        res.json({ success: true, hasUnreadMessages: !!hasUnread });
     } catch (error) {
-      next(error);
+        next(error);
     }
-  }
+}

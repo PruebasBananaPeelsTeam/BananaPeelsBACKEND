@@ -1,6 +1,17 @@
+import Message from '../models/Message.js'
+
+
 export const chatSocket = (io) => {
     io.on('connection', (socket) => {
         console.log('🟢 Usuario conectado al chat:', socket.id);
+
+        // Identificar el socket con el userId del usuario logueado
+        socket.on('identify', (userId) => {
+            console.log(
+                `🧠 Socket ${socket.id} identificado como user ${userId}`,
+            );
+            socket.join(userId);
+        });
 
         // Unirse a un chat específico
         socket.on('joinChat', (chatId) => {
@@ -8,12 +19,31 @@ export const chatSocket = (io) => {
             socket.join(chatId); // el socket se une a la sala con el id del chat
         });
 
-        // Recibir y reenviar mensajes en tiempo real
-        socket.on('sendMessage', ({ chatId, message }) => {
-            console.log(`New message in chat ${chatId}:`, message);
+        // Escuchar evento para marcar mensajes como leídos
+        socket.on('markAsRead', async ({ chatId, userId }) => {
+            try {
+                await Message.updateMany(
+                    {
+                        chatId,
+                        sender: { $ne: userId },
+                        readBy: { $ne: userId },
+                    },
+                    {
+                        $addToSet: { readBy: userId },
+                    },
+                );
 
-            // Enviar mensaje a todos los sockets conectados al room (excepto al emisor)
-            socket.to(chatId).emit('newMessage', message);
+                console.log(
+                    `✅ Mensajes marcados como leídos para el usuario ${userId} en chat ${chatId}`,
+                );
+
+                socket.emit('messagesRead', { chatId });
+            } catch (error) {
+                console.error(
+                    '❌ Error al marcar mensajes como leídos:',
+                    error.message,
+                );
+            }
         });
 
         // Cuando se desconecta
