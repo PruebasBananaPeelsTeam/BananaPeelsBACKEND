@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import Advert from '../models/Advert.js';
 
 // GET /favorites
+
 export const getFavorites = async (req, res) => {
   try {
 
@@ -37,11 +38,18 @@ export const getFavorites = async (req, res) => {
     res.status(500).json({ error: 'Error fetching favorites' });
   }
 };
+
+
 // POST /favorites/:advertId 
 export const addFavorite = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     const { advertId } = req.params;
+
+     // Autorización
+     if (!user) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
 
     // ✅ Verificar que el anuncio existe
     const advertExists = await Advert.findById(advertId);
@@ -67,6 +75,11 @@ export const removeFavorite = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     const { advertId } = req.params;
+
+    // Autorización
+    if (!user) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
 
     user.favorites = user.favorites.filter(
       (favId) => favId.toString() !== advertId
