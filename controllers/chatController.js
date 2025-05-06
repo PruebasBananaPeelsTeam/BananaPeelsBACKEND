@@ -72,6 +72,17 @@ export async function getMessages(req, res, next) {
                 .status(403)
                 .json({ error: 'Forbidden: not a participant of this chat' });
         }
+        // Marcar como leídos los mensajes no leídos por este usuario
+        await Message.updateMany(
+            // $ne = not equal
+            // $addToSet = Añadir solo si no existe (como un Set) 
+            {
+                chatId,
+                readBy: { $ne: userId },
+                sender: { $ne: userId },
+            },
+            { $addToSet: { readBy: userId } },
+        );
 
         const messages = await Message.find({ chatId })
             .sort({ createdAt: 1 })
@@ -155,3 +166,23 @@ export async function checkChatByAdvert(req, res, next) {
         next(error);
     }
 }
+
+export async function getUnreadChats(req, res, next) {
+    try {
+      const userId = req.user._id;
+  
+      // Buscar mensajes que:
+      // - no han sido leídos por el usuario
+      // - no fueron enviados por él mismo
+      const unreadMessages = await Message.find({
+        sender: { $ne: userId },
+        readBy: { $ne: userId },
+      }).select('chatId');
+  
+      const unreadChatIds = [...new Set(unreadMessages.map((m) => m.chatId.toString()))];
+  
+      res.json({ success: true, unreadChats: unreadChatIds });
+    } catch (error) {
+      next(error);
+    }
+  }

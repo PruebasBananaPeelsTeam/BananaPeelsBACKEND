@@ -19,6 +19,13 @@ const messageSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        readBy: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'User',
+              default: [],
+            },
+          ],
     },
     {
         timestamps: true, // para `createdAt` (orden por tiempo)
