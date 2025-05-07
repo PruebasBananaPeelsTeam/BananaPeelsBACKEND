@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Advert from '../models/Advert.js';
 
 export const updateUser = async (req, res) => {
   try {
@@ -28,6 +29,10 @@ export const updateUser = async (req, res) => {
       if (usernameExists) {
         return res.status(400).json({ error: 'The name is already in use' });
       }
+      await Advert.updateMany(
+        { ownerId: userId },
+        {$set:{owner: username}}
+      )
       user.username = username;
     }
 
