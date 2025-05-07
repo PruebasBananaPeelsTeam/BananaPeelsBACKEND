@@ -19,7 +19,7 @@ export const createAdvert = async (req, res, next) => {
         const savedAdvert = await advert.save();
         res.status(201).json(savedAdvert);
     } catch (err) {
-        console.error('❌ Error al crear el anuncio:', err);
+        console.error('❌ Error creating the ad: Please check the required fields and try again.', err);
         res.status(500).json({ error: err.message });
         next(err);
     }
