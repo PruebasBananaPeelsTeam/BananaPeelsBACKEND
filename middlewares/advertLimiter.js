@@ -8,6 +8,6 @@ export const advertLimiter = rateLimit({
     message: {
         error: true,
         message:
-            ' Has alcanzado el límite de peticiones. Por favor, espera un momento antes de volver a intentarlo.',
+            'You have reached the request limit. Please wait a moment before trying again.',
     },
 });
