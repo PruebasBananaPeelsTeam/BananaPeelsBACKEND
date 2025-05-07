@@ -15,7 +15,7 @@ export async function getAdvertDetail(req, res, next) {
 
         // Owner
         const user = await User.findOne({ username: advert.owner })
-            .select('username email')
+            .select('username')
             .lean();
 
         res.json({
@@ -30,7 +30,7 @@ export async function getAdvertDetail(req, res, next) {
                 price: advert.price,
                 tags: advert.tags,
                 reserved: advert.reserved,
-                owner: user || advert.owner,
+                owner: user?.username || advert.owner,
                 createdAt: advert.createdAt,
             },
         });
