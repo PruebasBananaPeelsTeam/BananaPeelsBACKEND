@@ -1,4 +1,5 @@
 import { z } from 'zod';
+const aviableTags = ['Garden', 'Decoration', 'Ilumination', 'Forniture']; //se que no es recomendable esto aqui , pero es un fix in Xtreme
 
 // ✅ Convert string → array if only one tag is present
 const preprocessTags = (val) => {
@@ -11,17 +12,20 @@ const advertSchema = z.object({
         .string()
         .trim()
         .min(1, 'Name is required')
-        .max(100, 'Name cannot exceed 100 characters'),
+        .max(20, 'Name cannot exceed 100 characters')
+        .regex(/^[a-zA-Z0-9\s]+$/, 'Name can only contain letters and numbers'),
 
     description: z
         .string()
         .trim()
         .min(1, 'Description is required')
-        .max(500, 'Description cannot exceed 500 characters'),
+        .max(150, 'Description cannot exceed 150 characters')
+        .regex(/^[a-zA-Z0-9\s]+$/, 'Description can only contain letters and numbers'),
 
     price: z.preprocess(
         (val) => Number(val),
-        z.number().min(0, 'Price must be a positive number'),
+        z.number().min(0, 'Price must be a positive number')
+        .max(9999999, 'Price cannot exceed 7 digits'),
     ),
 
     type: z.enum(['buy', 'sell'], {
@@ -30,7 +34,14 @@ const advertSchema = z.object({
 
     tags: z.preprocess(
         preprocessTags,
-        z.array(z.string()).min(1, 'At least one tag is required'),
+        z.array(z.string())
+            .min(1, 'At least one tag is required')
+            .refine(
+                (tags) => tags.every((tag) => aviableTags.includes(tag)),
+                {
+                    message: `Tags must be one of: ${aviableTags.join(', ')}`,
+                }
+            )
     ),
 });
 
